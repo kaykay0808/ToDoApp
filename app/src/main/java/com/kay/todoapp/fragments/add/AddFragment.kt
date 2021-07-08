@@ -1,10 +1,11 @@
-package com.kay.todoapp
+package com.kay.todoapp.fragments.add
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.kay.todoapp.R
 
 class AddFragment : Fragment() {
 
