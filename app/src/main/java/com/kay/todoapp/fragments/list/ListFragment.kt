@@ -33,5 +33,4 @@ class ListFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }
