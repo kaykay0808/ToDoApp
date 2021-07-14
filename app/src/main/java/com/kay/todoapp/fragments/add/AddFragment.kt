@@ -17,4 +17,5 @@ class AddFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add, container, false)
     }
 
+
 }

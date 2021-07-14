@@ -1,10 +1,8 @@
 package com.kay.todoapp.fragments.list
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.kay.todoapp.R
 import com.kay.todoapp.databinding.FragmentListBinding
@@ -26,11 +24,21 @@ class ListFragment : Fragment() {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
+        binding.listLayout.setOnClickListener{
+            findNavController().navigate(R.id.action_listFragment_to_updateFragment)
+        }
+        // set Menu
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
     }
 }
