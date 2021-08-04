@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.kay.todoapp.data.models.ToDoData
 
 @Database(entities = [ToDoData::class], version = 1, exportSchema = false)
+@TypeConverters(Converter::class)
 abstract class ToDoDatabase: RoomDatabase() {
 
     abstract fun toDoDao(): ToDoDao
 
     companion object {
 
-        @Volatile // <-- Writes to this field ar immediately made visible to other threads.
+        @Volatile // <-- Writes to this field are immediately made visible to other threads.
         private var INSTANCE: ToDoDatabase? = null
 
         fun getDatabase(context: Context): ToDoDatabase{
