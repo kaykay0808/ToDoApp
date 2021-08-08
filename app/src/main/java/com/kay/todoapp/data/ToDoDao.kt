@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.kay.todoapp.data.models.ToDoData
 
 @Dao
@@ -17,4 +18,8 @@ interface ToDoDao {
     // Inserting the data
     @Insert(onConflict = OnConflictStrategy.IGNORE) // <-- if we add the same item
     suspend fun insertData(toDoData: ToDoData) // <--
+
+    //update
+    @Update
+    suspend fun updateData(toDoData: ToDoData)
 }
