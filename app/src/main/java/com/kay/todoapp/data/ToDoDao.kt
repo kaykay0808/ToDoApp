@@ -20,10 +20,15 @@ interface ToDoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE) // <-- if we add the same item
     suspend fun insertData(toDoData: ToDoData) // <--
 
-    //update
+    // update
     @Update
     suspend fun updateData(toDoData: ToDoData)
 
+    // Delete single item
     @Delete
     suspend fun deleteItem(toDoData: ToDoData)
+
+    // Delete all items
+    @Query("DELETE FROM todo_table")
+    suspend fun deleteAll()
 }
