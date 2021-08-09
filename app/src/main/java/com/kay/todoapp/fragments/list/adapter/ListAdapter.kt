@@ -1,4 +1,4 @@
-package com.kay.todoapp.fragments.list
+package com.kay.todoapp.fragments.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import com.kay.todoapp.R
 import com.kay.todoapp.data.models.Priority
 import com.kay.todoapp.data.models.ToDoData
 import com.kay.todoapp.databinding.RowLayoutBinding
+import com.kay.todoapp.fragments.list.ListFragmentDirections
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 

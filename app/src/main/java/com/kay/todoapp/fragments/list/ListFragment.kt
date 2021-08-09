@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kay.todoapp.R
 import com.kay.todoapp.data.viewmodel.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
+import com.kay.todoapp.fragments.list.adapter.ListAdapter
 
 class ListFragment : Fragment() {
 
@@ -36,10 +39,10 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        // Setup RecyclerView
+        setupRecyclerView()
 
+        // Observe LiveData
         mToDoViewModel.gelAllData.observe(viewLifecycleOwner, Observer { data ->
             mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
@@ -56,6 +59,27 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        // Swipe to delete
+        swipeToDelete(recyclerView)
+    }
+
+    private fun swipeToDelete(recyclerView: RecyclerView){
+        val swipeToDeleteCallback = object : SwipeToDelete(){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val itemToDelete = adapter.dataList[viewHolder.adapterPosition]
+                mToDoViewModel.deleteItem(itemToDelete)
+                Toast.makeText(requireContext(), "Successfully Removed: '${itemToDelete.tittle}'", Toast.LENGTH_SHORT).show()
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
