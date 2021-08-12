@@ -14,12 +14,14 @@ import com.kay.todoapp.data.models.ToDoData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
-    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
+    /** ======================== List Fragment =================================================== */
+    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkIfDatabaseEmpty(toDoData: List<ToDoData>){
         emptyDatabase.value = toDoData.isEmpty()
     }
 
+    /** ======================== Add/Update Fragment ============================================== */
     // Function that change color to the spinner
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(p0: AdapterView<*>?) {}
