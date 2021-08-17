@@ -3,6 +3,9 @@ package com.kay.todoapp.fragments.list.adapter
 import androidx.recyclerview.widget.DiffUtil
 import com.kay.todoapp.data.models.ToDoData
 
+// This class finds the difference between two list and provides the updated list as an output.
+// This class is used to notify updates to a RecyclerView Adapter.
+
 class ToDoDiffUtil(
     private val oldList: List<ToDoData>,
     private val newList: List<ToDoData>

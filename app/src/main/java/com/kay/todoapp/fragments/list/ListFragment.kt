@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,8 +24,9 @@ import com.kay.todoapp.data.viewmodel.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
@@ -67,19 +69,26 @@ class ListFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
 
         // Swipe to delete
         swipeToDelete(recyclerView)
     }
 
-    private fun swipeToDelete(recyclerView: RecyclerView){
-        val swipeToDeleteCallback = object : SwipeToDelete(){
+    private fun swipeToDelete(recyclerView: RecyclerView) {
+        val swipeToDeleteCallback = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val deletedItem = adapter.dataList[viewHolder.adapterPosition]
                 // Delete Item
                 mToDoViewModel.deleteItem(deletedItem)
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
-                Toast.makeText(requireContext(), "Successfully Removed: '${deletedItem.tittle}'", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Successfully Removed: '${deletedItem.tittle}'",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // Restore the swiped Item
                 restoreDeletedData(viewHolder.itemView, deletedItem, viewHolder.adapterPosition)
             }
@@ -89,13 +98,13 @@ class ListFragment : Fragment() {
     }
 
     // Restore item after swiping
-    private fun restoreDeletedData (view: View, deletedItem: ToDoData, position: Int){
+    private fun restoreDeletedData(view: View, deletedItem: ToDoData, position: Int) {
         val snackBar = Snackbar.make(
             view, "Deleted '${deletedItem.tittle}'",
             Snackbar.LENGTH_LONG
         )
         // set an action button on our snack bar
-        snackBar.setAction("Undo"){
+        snackBar.setAction("Undo") {
             mToDoViewModel.insertData(deletedItem)
             adapter.notifyItemChanged(position)
         }
@@ -103,10 +112,10 @@ class ListFragment : Fragment() {
     }
 
     private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
-        if(emptyDatabase){
+        if (emptyDatabase) {
             binding?.noDataImageView?.visibility = View.VISIBLE
             binding?.noDataTextView?.visibility = View.VISIBLE
-        }else{
+        } else {
             binding?.noDataImageView?.visibility = View.INVISIBLE
             binding?.noDataTextView?.visibility = View.INVISIBLE
         }
@@ -114,13 +123,44 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.menu_delete_all){
-            confirmRemoval()
+        when (item.itemId) {
+            R.id.menu_delete_all -> confirmRemoval()
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.setData(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.setData(it) })
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+
+        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        })
     }
 
     // Show AlertDialog to confirm removal of all items from database table
@@ -137,7 +177,7 @@ class ListFragment : Fragment() {
             ).show()
         }
         // negative button
-        builder.setNegativeButton("NO"){ _, _ -> }
+        builder.setNegativeButton("NO") { _, _ -> }
         builder.setTitle("Delete everything?")
         builder.setMessage("Are you sure you want to remove everything?")
         builder.create().show()
