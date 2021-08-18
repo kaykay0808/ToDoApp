@@ -29,7 +29,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.binding.titleTxt.text = dataList[position].tittle
         holder.binding.descriptionTxt.text = dataList[position].description
         holder.binding.rowBackground.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
+            // Safe args - pass ToDoData object to update fragment
+            val action =
+                ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
             holder.itemView.findNavController().navigate(action)
         }
 
@@ -59,7 +61,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         return dataList.size
     }
 
-    fun setData(toDoData: List<ToDoData>){
+    fun setData(toDoData: List<ToDoData>) {
         val toDoDiffUtil = ToDoDiffUtil(dataList, toDoData)
         val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoData

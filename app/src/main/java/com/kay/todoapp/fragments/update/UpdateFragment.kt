@@ -36,7 +36,8 @@ class UpdateFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
 
-        binding.currentTitleEt.setText(args.currentItem.tittle)
+        // The selected Item/holder from the list fragment
+        binding.currentTitleEt.setText(args.currentItem.tittle) // <-- "currentItem" is the argument we created in the navigation graph
         binding.currentDescriptionEt.setText(args.currentItem.description)
         binding.currentPrioritiesSpinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
         binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener

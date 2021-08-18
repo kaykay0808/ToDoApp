@@ -11,6 +11,7 @@ class Converter {
         return priority.name
     }
 
+    // Function that converting string back to priority object
     @TypeConverter
     fun toPriority(priority: String): Priority {
         return Priority.valueOf(priority)

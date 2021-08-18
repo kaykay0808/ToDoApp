@@ -22,6 +22,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     /** ======================== Add/Update Fragment ============================================== */
+
     // Function that change color to the spinner
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -66,6 +67,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         return !(title.isEmpty() || description.isEmpty())
     }
 
+    //
     fun parsePriority(priority: String): Priority {
         return when (priority) {
             "High Priority" -> {
@@ -81,6 +83,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    // Return the priority  to an Int
     fun parsePriorityToInt(priority: Priority): Int {
         return when (priority) {
             Priority.HIGH -> 0
@@ -88,5 +91,4 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             Priority.LOW -> 2
         }
     }
-
 }
