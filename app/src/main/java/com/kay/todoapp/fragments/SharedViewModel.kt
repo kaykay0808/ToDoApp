@@ -63,9 +63,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     // function that checks if the input is empty
     fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description)) {
-            false
-        } else !(title.isEmpty() || description.isEmpty())
+        return !(title.isEmpty() || description.isEmpty())
     }
 
     fun parsePriority(priority: String): Priority {

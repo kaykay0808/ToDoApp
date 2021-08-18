@@ -2,6 +2,7 @@ package com.kay.todoapp.fragments.list
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -27,6 +28,7 @@ import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
+import com.kay.todoapp.utils.observeOnce
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -138,8 +140,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
-            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.setData(it) })
-            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.setData(it) })
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(viewLifecycleOwner, Observer { adapter.setData(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(viewLifecycleOwner, Observer { adapter.setData(it) })
         }
         return super.onOptionsItemSelected(item)
     }
@@ -161,8 +163,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+        mToDoViewModel.searchDatabase(searchQuery).observeOnce(viewLifecycleOwner, Observer { list ->
             list?.let {
+                Log.d("ListFragment", "searchThroughDatabase")
                 adapter.setData(it)
             }
         })
