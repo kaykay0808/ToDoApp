@@ -15,9 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -117,11 +115,11 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
         if (emptyDatabase) {
-            binding?.noDataImageView?.visibility = View.VISIBLE
-            binding?.noDataTextView?.visibility = View.VISIBLE
+            binding.noDataImageView.visibility = View.VISIBLE
+            binding.noDataTextView.visibility = View.VISIBLE
         } else {
-            binding?.noDataImageView?.visibility = View.INVISIBLE
-            binding?.noDataTextView?.visibility = View.INVISIBLE
+            binding.noDataImageView.visibility = View.INVISIBLE
+            binding.noDataTextView.visibility = View.INVISIBLE
         }
     }
 
