@@ -29,7 +29,6 @@ import com.kay.todoapp.fragments.SharedViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
 import com.kay.todoapp.utils.observeOnce
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -55,6 +54,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         mToDoViewModel.gelAllData.observe(viewLifecycleOwner, Observer { data ->
             mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
+            binding.recyclerView.scheduleLayoutAnimation()
         })
         mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
             showEmptyDatabaseViews(it)
@@ -77,9 +77,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) // <-- Change between LinearLayoutManager and GridLayoutManager and StaggeredGridLayoutManager
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
-            addDuration = 300
-        }
 
         // Swipe to delete
         swipeToDelete(recyclerView)
