@@ -1,4 +1,4 @@
-package com.kay.todoapp.data.viewmodel
+package com.kay.todoapp.fragments
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

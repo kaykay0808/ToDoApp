@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.data.viewmodel.ToDoViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
@@ -66,7 +66,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         setHasOptionsMenu(true)
 
         // Hide soft keyboard
-        hideKeyboard(requireActivity())
+        requireActivity().hideKeyboard()
 
         return binding.root
     }

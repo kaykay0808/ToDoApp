@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.data.viewmodel.ToDoViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentUpdateBinding
 import com.kay.todoapp.fragments.SharedViewModel
 

@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.data.viewmodel.ToDoViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentAddBinding
 import com.kay.todoapp.fragments.SharedViewModel
 

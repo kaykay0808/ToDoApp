@@ -12,6 +12,8 @@ import com.kay.todoapp.R
 import com.kay.todoapp.data.models.Priority
 import com.kay.todoapp.data.models.ToDoData
 
+// This is not ideal, dependency injection would be better.
+
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     /** ======================== List Fragment =================================================== */
