@@ -9,8 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
 import com.kay.todoapp.utils.observeOnce
@@ -39,7 +39,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private val adapter: ListAdapter by lazy { ListAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -49,14 +50,20 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
 
         // Observe LiveData
-        mToDoViewModel.gelAllData.observe(viewLifecycleOwner, Observer { data ->
-            mSharedViewModel.checkIfDatabaseEmpty(data)
-            adapter.setData(data)
-            binding.recyclerView.scheduleLayoutAnimation()
-        })
-        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
-            showEmptyDatabaseViews(it)
-        })
+        mToDoViewModel.gelAllData.observe(
+            viewLifecycleOwner,
+            Observer { data ->
+                mSharedViewModel.checkIfDatabaseEmpty(data)
+                adapter.setData(data)
+                binding.recyclerView.scheduleLayoutAnimation()
+            }
+        )
+        mSharedViewModel.emptyDatabase.observe(
+            viewLifecycleOwner,
+            Observer {
+                showEmptyDatabaseViews(it)
+            }
+        )
 
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
@@ -158,12 +165,15 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        mToDoViewModel.searchDatabase(searchQuery).observeOnce(viewLifecycleOwner, Observer { list ->
-            list?.let {
-                Log.d("ListFragment", "searchThroughDatabase")
-                adapter.setData(it)
+        mToDoViewModel.searchDatabase(searchQuery).observeOnce(
+            viewLifecycleOwner,
+            Observer { list ->
+                list?.let {
+                    Log.d("ListFragment", "searchThroughDatabase")
+                    adapter.setData(it)
+                }
             }
-        })
+        )
     }
 
     // Show AlertDialog to confirm removal of all items from database table

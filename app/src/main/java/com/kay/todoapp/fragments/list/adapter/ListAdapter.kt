@@ -22,7 +22,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         val inflater = LayoutInflater.from(parent.context)
 
         return MyViewHolder(RowLayoutBinding.inflate(inflater, parent, false))
-
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

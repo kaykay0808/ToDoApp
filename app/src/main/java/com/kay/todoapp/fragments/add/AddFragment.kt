@@ -13,9 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentAddBinding
 import com.kay.todoapp.fragments.SharedViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 
 class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
@@ -25,7 +25,8 @@ class AddFragment : Fragment() {
     private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -68,7 +69,7 @@ class AddFragment : Fragment() {
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
             // Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
-        }else{
+        } else {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
     }

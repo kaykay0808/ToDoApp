@@ -13,4 +13,4 @@ data class ToDoData(
     var tittle: String,
     var priority: Priority,
     var description: String
-): Parcelable
+) : Parcelable

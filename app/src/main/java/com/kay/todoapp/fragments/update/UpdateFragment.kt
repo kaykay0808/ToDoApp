@@ -15,9 +15,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
-import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.databinding.FragmentUpdateBinding
 import com.kay.todoapp.fragments.SharedViewModel
+import com.kay.todoapp.fragments.ToDoViewModel
 
 class UpdateFragment : Fragment() {
 
@@ -30,7 +30,8 @@ class UpdateFragment : Fragment() {
     private val mToDoViewModel: ToDoViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -46,7 +47,6 @@ class UpdateFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,7 +100,7 @@ class UpdateFragment : Fragment() {
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         // negative button
-        builder.setNegativeButton("NO"){ _, _ -> }
+        builder.setNegativeButton("NO") { _, _ -> }
         builder.setTitle("Delete ${args.currentItem.tittle}?")
         builder.setMessage("Are you sure you want to remove '${args.currentItem.tittle}'?")
         builder.create().show()

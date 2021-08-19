@@ -1,7 +1,6 @@
 package com.kay.todoapp.fragments
 
 import android.app.Application
-import android.text.TextUtils
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
@@ -19,7 +18,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     /** ======================== List Fragment =================================================== */
     val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun checkIfDatabaseEmpty(toDoData: List<ToDoData>){
+    fun checkIfDatabaseEmpty(toDoData: List<ToDoData>) {
         emptyDatabase.value = toDoData.isEmpty()
     }
 

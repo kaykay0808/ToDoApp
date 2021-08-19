@@ -30,9 +30,9 @@ class ToDoDiffUtil(
     // Checks whether two items have the same data. You can change its behaviour depending on your UI.
     // This method is called by DiffUtil only if "areItemsTheSame()" returns true.
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
-                && oldList[oldItemPosition].tittle == newList[newItemPosition].tittle
-                && oldList[oldItemPosition].description == newList[newItemPosition].description
-                && oldList[oldItemPosition].priority == newList[newItemPosition].priority
+        return oldList[oldItemPosition].id == newList[newItemPosition].id &&
+            oldList[oldItemPosition].tittle == newList[newItemPosition].tittle &&
+            oldList[oldItemPosition].description == newList[newItemPosition].description &&
+            oldList[oldItemPosition].priority == newList[newItemPosition].priority
     }
 }
