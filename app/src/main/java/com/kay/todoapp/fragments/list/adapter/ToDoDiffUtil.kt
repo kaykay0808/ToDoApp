@@ -31,8 +31,8 @@ class ToDoDiffUtil(
     // This method is called by DiffUtil only if "areItemsTheSame()" returns true.
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].id == newList[newItemPosition].id &&
-            oldList[oldItemPosition].tittle == newList[newItemPosition].tittle &&
-            oldList[oldItemPosition].description == newList[newItemPosition].description &&
-            oldList[oldItemPosition].priority == newList[newItemPosition].priority
+                oldList[oldItemPosition].tittle == newList[newItemPosition].tittle &&
+                oldList[oldItemPosition].description == newList[newItemPosition].description &&
+                oldList[oldItemPosition].priority == newList[newItemPosition].priority
     }
 }

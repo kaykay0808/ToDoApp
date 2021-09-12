@@ -24,6 +24,28 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     /** ======================== Add/Update Fragment ============================================== */
 
+
+    // function that checks if the input is empty
+    fun verifyDataFromUser(title: String, description: String): Boolean {
+        return !(title.isEmpty() || description.isEmpty())
+    }
+
+    //
+    fun parsePriority(priority: String): Priority {
+        return when (priority) {
+            "High Priority" -> {
+                Priority.HIGH
+            }
+            "Medium Priority" -> {
+                Priority.MEDIUM
+            }
+            "Low Priority" -> {
+                Priority.LOW
+            }
+            else -> Priority.LOW
+        }
+    }
+
     // Function that change color to the spinner
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -34,6 +56,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             position: Int,
             id: Long
         ) {
+            // The logic that check the position of the spinner.
             when (position) {
                 0 -> {
                     (parent?.getChildAt(0) as TextView).setTextColor(
@@ -60,27 +83,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                     )
                 }
             }
-        }
-    }
-
-    // function that checks if the input is empty
-    fun verifyDataFromUser(title: String, description: String): Boolean {
-        return !(title.isEmpty() || description.isEmpty())
-    }
-
-    //
-    fun parsePriority(priority: String): Priority {
-        return when (priority) {
-            "High Priority" -> {
-                Priority.HIGH
-            }
-            "Medium Priority" -> {
-                Priority.MEDIUM
-            }
-            "Low Priority" -> {
-                Priority.LOW
-            }
-            else -> Priority.LOW
         }
     }
 

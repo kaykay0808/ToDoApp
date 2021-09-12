@@ -12,13 +12,13 @@ import com.kay.todoapp.data.models.ToDoData
 @Dao
 interface ToDoDao {
 
-    // Reading the data
+    // Reading the live data
     @Query("SELECT * FROM todo_table ORDER BY id ASC")
     fun getAllData(): LiveData<List<ToDoData>>
 
     // Inserting the data
-    @Insert(onConflict = OnConflictStrategy.IGNORE) // <-- if we add the same item
-    suspend fun insertData(toDoData: ToDoData) // <--
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertData(toDoData: ToDoData)
 
     // update
     @Update

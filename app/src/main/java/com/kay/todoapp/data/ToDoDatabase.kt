@@ -7,8 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.kay.todoapp.data.models.ToDoData
 
+// Contains the database holder and serves as the main access pont for the underlying connection your app's persisted, relational data.
+
 @Database(entities = [ToDoData::class], version = 1, exportSchema = false)
-@TypeConverters(Converter::class)
+@TypeConverters(Converter::class) // <-- this is for our converter.
 abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun toDoDao(): ToDoDao

@@ -18,9 +18,11 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Make action bar change with the navigation.
         setupActionBarWithNavController(navController)
     }
 
+    // This will make us return to the first fragment.
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

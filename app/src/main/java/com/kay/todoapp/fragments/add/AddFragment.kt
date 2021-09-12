@@ -35,30 +35,39 @@ class AddFragment : Fragment() {
         // Set Menu
         setHasOptionsMenu(true)
 
-        binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
-
         return binding.root
     }
 
+    // Menu inflater.
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_fragment_menu, menu)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Find our spinner
+        binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
+    }
+
+    /**===================================== SAVING NEW DATA TO OUR DATABASE ===============================*/
+    // Function that handle all the clickListener for our menu item.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_add) {
-            insertDataToDb()
+        if (item.itemId == R.id.menu_add) { // <- if menu_add is clicked.
+            insertDataToDatabase() // <- Function that have the logic for inserting data to our database
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun insertDataToDb() {
+    private fun insertDataToDatabase() {
         val mTitle = binding.titleEt.text.toString()
         val mPriority = binding.prioritiesSpinner.selectedItem.toString()
         val mDescription = binding.descriptionEt.text.toString()
 
-        val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
+        val validation = mSharedViewModel.verifyDataFromUser(
+            mTitle,
+            mDescription
+        ) // <- if validation is true, only then we can insert data to database
         if (validation) {
-            // if validation return true, only then we can insert data to database
+            // Insert Data to Database
             val newData = ToDoData(
                 0,
                 mTitle,
@@ -70,9 +79,12 @@ class AddFragment : Fragment() {
             // Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
         } else {
-            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)
+                .show()
         }
     }
+
+    /**===================================== END =================================================================*/
 
     override fun onDestroyView() {
         super.onDestroyView()

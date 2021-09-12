@@ -65,11 +65,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         )
 
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
-
-        // set Menu
+        // Set Menu (link to out menu on actionbar.)
         setHasOptionsMenu(true)
 
         // Hide soft keyboard
@@ -78,10 +74,30 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Navigation with floating button to add fragment
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+        }
+    }
+
+    // Menu Settings.
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
     private fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) // <-- Change between LinearLayoutManager and GridLayoutManager and StaggeredGridLayoutManager
+        recyclerView.layoutManager = StaggeredGridLayoutManager(
+            2,
+            StaggeredGridLayoutManager.VERTICAL // <-- Change between LinearLayoutManager and GridLayoutManager and StaggeredGridLayoutManager
+        )
 
         // Swipe to delete
         swipeToDelete(recyclerView)
@@ -130,20 +146,15 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.list_fragment_menu, menu)
-
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
-            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(viewLifecycleOwner, Observer { adapter.setData(it) })
-            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(viewLifecycleOwner, Observer { adapter.setData(it) })
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(
+                viewLifecycleOwner,
+                Observer { adapter.setData(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(
+                viewLifecycleOwner,
+                Observer { adapter.setData(it) })
         }
         return super.onOptionsItemSelected(item)
     }
@@ -162,6 +173,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         return true
     }
 
+    //
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class ToDoViewModel(application: Application) : AndroidViewModel(application) {
 
+    // ToDoDatabase class -> pass in application context -> get reference from our Dao class.
     private val toDoDao = ToDoDatabase.getDatabase(application).toDoDao()
     private val repository: ToDoRepository = ToDoRepository(toDoDao)
 
@@ -19,12 +20,15 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     val sortByHighPriority: LiveData<List<ToDoData>>
     val sortByLowPriority: LiveData<List<ToDoData>>
 
+    // a block that initialize our repository. This would be call everytime toDoViewModel is called first.
     init {
-        var repository = ToDoRepository(toDoDao)
-        gelAllData = repository.getAllData
+        val repository = ToDoRepository(toDoDao) // <- Pass in our Dao in our repository
+        gelAllData = repository.getAllData // <- set our liveData to our repository
         sortByHighPriority = repository.sortByHighPriority
         sortByLowPriority = repository.sortByLowPriority
     }
+
+    // Coroutine for database operations.
 
     fun insertData(toDoData: ToDoData) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -45,7 +49,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteAll() {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             repository.deleteAll()
         }
     }

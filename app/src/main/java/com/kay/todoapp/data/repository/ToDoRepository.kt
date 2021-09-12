@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import com.kay.todoapp.data.ToDoDao
 import com.kay.todoapp.data.models.ToDoData
 
-class ToDoRepository(private val toDoDao: ToDoDao) {
+class ToDoRepository(private val toDoDao: ToDoDao) { // <- Get reference from our DAO
 
-    val getAllData: LiveData<List<ToDoData>> = toDoDao.getAllData()
+    val getAllData: LiveData<List<ToDoData>> = toDoDao.getAllData() // <- get access from our DAO class
     val sortByHighPriority: LiveData<List<ToDoData>> = toDoDao.sortByHighPriority()
     val sortByLowPriority: LiveData<List<ToDoData>> = toDoDao.sortByLowPriority()
 

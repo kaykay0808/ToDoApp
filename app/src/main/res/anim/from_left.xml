@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Duration is the animation speed/time, From X delta is starting point,  to X delta is the ending point-->
     <translate
         android:duration="300"
         android:fromXDelta="-100%"
