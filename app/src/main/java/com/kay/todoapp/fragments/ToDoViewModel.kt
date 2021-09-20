@@ -18,7 +18,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     private val toDoDao = ToDoDatabase.getDatabase(application).toDoDao()
     private val repository: ToDoRepository = ToDoRepository(toDoDao, priorityOrderSettingDao) // TODO <- trying to pass inn repository
 
-    val readAllOrder: LiveData<PriorityOrderSetting> = repository.readNewOrder // TODO <- part of priority order insert
+    val readAllOrder: LiveData<PriorityOrderSetting?> = repository.readNewOrder // TODO <- part of priority order insert
     val getAllData: LiveData<List<ToDoData>> = repository.getAllData
     val sortByHighPriority: LiveData<List<ToDoData>> = repository.sortByHighPriority
     val sortByLowPriority: LiveData<List<ToDoData>> = repository.sortByLowPriority
@@ -47,6 +47,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
 
     // TODO make a add order function
     fun addOrder(priority: String){
+        // made this database object below
         val priorityOrderSetting = PriorityOrderSetting(sortOrder = priority)
         viewModelScope.launch(Dispatchers.IO) {
             repository.addNewOrder(priorityOrderSetting)

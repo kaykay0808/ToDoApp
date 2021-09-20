@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -52,21 +51,39 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         // Inflate the layout for this fragment
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
+
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Setup RecyclerView
         setupRecyclerView()
 
         // Observe LiveData
-        mToDoViewModel.getAllData.observe(
+
+        mToDoViewModel.readAllOrder.observe(
             viewLifecycleOwner,
-            Observer { data ->
-                mSharedViewModel.checkIfDatabaseEmpty(data)
-                adapter.setData(data)
-                binding.recyclerView.scheduleLayoutAnimation()
+            { order ->
+                if (order?.sortOrder == HIGH_PRIORITY) {
+                    mToDoViewModel.sortByHighPriority.observe(
+                        viewLifecycleOwner,
+                        {
+                            setupList(it)
+                        })
+                } else {
+                    mToDoViewModel.sortByLowPriority.observe(
+                        viewLifecycleOwner,
+                        {
+                            setupList(it)
+                        })
+                }
             }
         )
+
         mSharedViewModel.emptyDatabase.observe(
             viewLifecycleOwner,
-            Observer {
+            {
                 showEmptyDatabaseViews(it)
             }
         )
@@ -77,14 +94,16 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         // Hide soft keyboard
         requireActivity().hideKeyboard()
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Navigation with floating button to add fragment
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
+    }
+
+    private fun setupList(data: List<ToDoData>) {
+        mSharedViewModel.checkIfDatabaseEmpty(data)
+        adapter.setData(data)
+        binding.recyclerView.scheduleLayoutAnimation()
     }
 
     // Menu Settings.
@@ -161,7 +180,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_priority_high -> {
                 mToDoViewModel.sortByHighPriority.observe(
                     viewLifecycleOwner,
-                    Observer { adapter.setData(it) })
+                    { adapter.setData(it) })
                 savePrioritiesToDatabase(HIGH_PRIORITY)
             }
 
@@ -169,7 +188,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_priority_low -> {
                 mToDoViewModel.sortByLowPriority.observe(
                     viewLifecycleOwner,
-                    Observer { adapter.setData(it) })
+                    { adapter.setData(it) })
                 savePrioritiesToDatabase(LOW_PRIORITY)
             }
         }
@@ -201,7 +220,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         mToDoViewModel.searchDatabase(searchQuery).observeOnce(
             viewLifecycleOwner,
-            Observer { list ->
+            { list ->
                 list?.let {
                     Log.d("ListFragment", "searchThroughDatabase")
                     adapter.setData(it)

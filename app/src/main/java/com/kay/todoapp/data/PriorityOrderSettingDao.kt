@@ -15,6 +15,6 @@ interface PriorityOrderSettingDao {
     suspend fun insertOrder(priorityOrderSetting: PriorityOrderSetting)
 
     // reading the data??
-    @Query("SELECT * FROM sort_order_table WHERE 'key' LIKE 0")
-    fun getOrder(): LiveData<PriorityOrderSetting>
+    @Query("SELECT * FROM sort_order_table ORDER BY `key` ASC LIMIT 1")
+    fun getOrder(): LiveData<PriorityOrderSetting?>
 }

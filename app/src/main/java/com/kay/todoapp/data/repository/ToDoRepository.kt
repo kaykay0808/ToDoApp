@@ -13,7 +13,7 @@ class ToDoRepository(private val toDoDao: ToDoDao, private val priorityOrderSett
     val sortByLowPriority: LiveData<List<ToDoData>> = toDoDao.sortByLowPriority()
 
     // reading priorityOrder
-    val readNewOrder: LiveData<PriorityOrderSetting> = priorityOrderSettingDao.getOrder()
+    val readNewOrder: LiveData<PriorityOrderSetting?> = priorityOrderSettingDao.getOrder()
 
     // insert new order function
     suspend fun addNewOrder(priorityOrderSetting: PriorityOrderSetting){
