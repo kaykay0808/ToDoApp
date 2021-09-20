@@ -23,10 +23,13 @@ import com.kay.todoapp.R
 import com.kay.todoapp.data.models.ToDoData
 import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
+import com.kay.todoapp.fragments.SharedViewModel.Companion.HIGH_PRIORITY
+import com.kay.todoapp.fragments.SharedViewModel.Companion.LOW_PRIORITY
 import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
 import com.kay.todoapp.utils.observeOnce
+
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -37,6 +40,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private val mSharedViewModel: SharedViewModel by viewModels()
 
     private val adapter: ListAdapter by lazy { ListAdapter() }
+
+    // todo: 1 - Create a sharedPreference object
+    //private  val sharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +56,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
 
         // Observe LiveData
-        mToDoViewModel.gelAllData.observe(
+        mToDoViewModel.getAllData.observe(
             viewLifecycleOwner,
             Observer { data ->
                 mSharedViewModel.checkIfDatabaseEmpty(data)
@@ -146,17 +152,33 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
+    // Our toolbar menu (DELETE ALL <-> PRIORITIES)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
-            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(
-                viewLifecycleOwner,
-                Observer { adapter.setData(it) })
-            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(
-                viewLifecycleOwner,
-                Observer { adapter.setData(it) })
+
+            // From priority high to low
+            R.id.menu_priority_high -> {
+                mToDoViewModel.sortByHighPriority.observe(
+                    viewLifecycleOwner,
+                    Observer { adapter.setData(it) })
+                savePrioritiesToDatabase(HIGH_PRIORITY)
+            }
+
+            // From priority low to high
+            R.id.menu_priority_low -> {
+                mToDoViewModel.sortByLowPriority.observe(
+                    viewLifecycleOwner,
+                    Observer { adapter.setData(it) })
+                savePrioritiesToDatabase(LOW_PRIORITY)
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    // Save priorities
+    private fun savePrioritiesToDatabase(priority: String) {
+        mToDoViewModel.addOrder(priority) // <- // TODO pass this shit to the viewModel?
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

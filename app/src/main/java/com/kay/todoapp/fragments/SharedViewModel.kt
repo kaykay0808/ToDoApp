@@ -33,18 +33,19 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     //
     fun parsePriority(priority: String): Priority {
         return when (priority) {
-            "High Priority" -> {
+            HIGH_PRIORITY -> {
                 Priority.HIGH
             }
-            "Medium Priority" -> {
+             MEDIUM_PRIORITY-> {
                 Priority.MEDIUM
             }
-            "Low Priority" -> {
+            LOW_PRIORITY -> {
                 Priority.LOW
             }
             else -> Priority.LOW
         }
     }
+
 
     // Function that change color to the spinner
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -93,5 +94,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             Priority.MEDIUM -> 1
             Priority.LOW -> 2
         }
+    }
+    companion object {
+        const val HIGH_PRIORITY = "High Priority"
+        const val MEDIUM_PRIORITY = "Medium Priority"
+        const val LOW_PRIORITY = "Low Priority"
     }
 }
