@@ -24,6 +24,7 @@ import com.kay.todoapp.databinding.FragmentListBinding
 import com.kay.todoapp.fragments.SharedViewModel
 import com.kay.todoapp.fragments.SharedViewModel.Companion.HIGH_PRIORITY
 import com.kay.todoapp.fragments.SharedViewModel.Companion.LOW_PRIORITY
+import com.kay.todoapp.fragments.SharedViewModel.Companion.RESET
 import com.kay.todoapp.fragments.ToDoViewModel
 import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
@@ -40,9 +41,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val adapter: ListAdapter by lazy { ListAdapter() }
 
-    // todo: 1 - Create a sharedPreference object
-    //private  val sharedPreferences
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,8 +48,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListBinding.inflate(inflater, container, false)
-
-
 
         return binding.root
     }
@@ -61,7 +57,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         setupRecyclerView()
 
         // Observe LiveData
-
         mToDoViewModel.readAllOrder.observe(
             viewLifecycleOwner,
             { order ->
@@ -174,6 +169,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     // Our toolbar menu (DELETE ALL <-> PRIORITIES)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            // Delete all
             R.id.menu_delete_all -> confirmRemoval()
 
             // From priority high to low
@@ -191,13 +187,21 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                     { adapter.setData(it) })
                 savePrioritiesToDatabase(LOW_PRIORITY)
             }
+
+            // Reset Order
+            R.id.menu_reset -> {
+                mToDoViewModel.getAllData.observe(
+                    viewLifecycleOwner,
+                    { adapter.setData(it) })
+                savePrioritiesToDatabase(RESET)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     // Save priorities
     private fun savePrioritiesToDatabase(priority: String) {
-        mToDoViewModel.addOrder(priority) // <- // TODO pass this shit to the viewModel?
+        mToDoViewModel.addOrder(priority) // <- // TODO pass this to the viewModel?
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

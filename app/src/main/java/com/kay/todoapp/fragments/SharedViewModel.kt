@@ -99,5 +99,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         const val HIGH_PRIORITY = "High Priority"
         const val MEDIUM_PRIORITY = "Medium Priority"
         const val LOW_PRIORITY = "Low Priority"
+        const val RESET = "Reset"
     }
 }
