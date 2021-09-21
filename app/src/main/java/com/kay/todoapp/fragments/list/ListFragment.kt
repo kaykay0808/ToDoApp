@@ -60,18 +60,28 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         mToDoViewModel.readAllOrder.observe(
             viewLifecycleOwner,
             { order ->
-                if (order?.sortOrder == HIGH_PRIORITY) {
-                    mToDoViewModel.sortByHighPriority.observe(
-                        viewLifecycleOwner,
-                        {
-                            setupList(it)
-                        })
-                } else {
-                    mToDoViewModel.sortByLowPriority.observe(
-                        viewLifecycleOwner,
-                        {
-                            setupList(it)
-                        })
+                when (order?.sortOrder) {
+                    HIGH_PRIORITY -> {
+                        mToDoViewModel.sortByHighPriority.observe(
+                            viewLifecycleOwner,
+                            {
+                                setupList(it)
+                            })
+                    }
+                    LOW_PRIORITY -> {
+                        mToDoViewModel.sortByLowPriority.observe(
+                            viewLifecycleOwner,
+                            {
+                                setupList(it)
+                            })
+                    }
+                    else -> {
+                        mToDoViewModel.getAllData.observe(
+                            viewLifecycleOwner,
+                            {
+                                setupList(it)
+                            })
+                    }
                 }
             }
         )
