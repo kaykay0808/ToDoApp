@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.2370668006027122" />
         <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/layout/fragment_add.xml" value="0.34193840579710144" />
+        <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/layout/fragment_list.xml" value="0.2370668006027122" />
+        <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/layout/fragment_update.xml" value="0.2370668006027122" />
+        <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/layout/row_layout.xml" value="0.2370668006027122" />
         <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/menu/add_fragment_menu.xml" value="0.49166666666666664" />
         <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/menu/list_fragment_menu.xml" value="0.49166666666666664" />
         <entry key="..\:/Users/Kaysh/Desktop/Android projects/ToDoApp/app/src/main/res/menu/update_fragment_menu.xml" value="0.49166666666666664" />

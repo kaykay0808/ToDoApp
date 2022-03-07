@@ -65,5 +65,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoData
         toDoDiffResult.dispatchUpdatesTo(this)
+
+        // *-- If we are not using DiffUtil --* //
+        // this.dataList = toDoData
+        // notifyDataSetChanged()
     }
 }

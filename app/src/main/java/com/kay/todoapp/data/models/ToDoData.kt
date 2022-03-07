@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "todo_table")
-@Parcelize
+@Parcelize // <- pass data to other fragments ?
 data class ToDoData(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
