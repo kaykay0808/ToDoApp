@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "sort_order_table")
 
-data class PriorityOrderSetting (
+data class PriorityOrderSetting(
     @PrimaryKey
     val key: Int = 0,
     val sortOrder: String

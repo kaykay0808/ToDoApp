@@ -38,7 +38,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // TODO make a add order function
-    fun addOrder(priority: String){
+    fun addOrder(priority: String) {
         // made this database object below
         val priorityOrderSetting = PriorityOrderSetting(sortOrder = priority)
         viewModelScope.launch(Dispatchers.IO) {

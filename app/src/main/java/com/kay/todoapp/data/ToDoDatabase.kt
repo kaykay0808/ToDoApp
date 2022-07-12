@@ -17,7 +17,6 @@ abstract class ToDoDatabase : RoomDatabase() {
     abstract fun toDoDao(): ToDoDao
     abstract fun priorityOrderSettingDao(): PriorityOrderSettingDao
 
-
     companion object {
 
         @Volatile // <-- Writes to this field are immediately made visible to other threads.

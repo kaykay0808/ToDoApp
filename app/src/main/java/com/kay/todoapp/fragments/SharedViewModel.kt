@@ -24,7 +24,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     /** ======================== Add/Update Fragment ============================================== */
 
-
     // function that checks if the input is empty
     fun verifyDataFromUser(title: String, description: String): Boolean {
         return !(title.isEmpty() || description.isEmpty())
@@ -36,7 +35,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             HIGH_PRIORITY -> {
                 Priority.HIGH
             }
-             MEDIUM_PRIORITY-> {
+            MEDIUM_PRIORITY -> {
                 Priority.MEDIUM
             }
             LOW_PRIORITY -> {
@@ -45,7 +44,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             else -> Priority.LOW
         }
     }
-
 
     // Function that change color to the spinner
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -86,7 +84,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
-
 
     // Return the priority  to an Int
     fun parsePriorityToInt(priority: Priority): Int {

@@ -30,7 +30,6 @@ import com.kay.todoapp.fragments.list.adapter.ListAdapter
 import com.kay.todoapp.utils.hideKeyboard
 import com.kay.todoapp.utils.observeOnce
 
-
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentListBinding? = null
@@ -66,21 +65,24 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                             viewLifecycleOwner,
                             {
                                 setupList(it)
-                            })
+                            }
+                        )
                     }
                     LOW_PRIORITY -> {
                         mToDoViewModel.sortByLowPriority.observe(
                             viewLifecycleOwner,
                             {
                                 setupList(it)
-                            })
+                            }
+                        )
                     }
                     else -> {
                         mToDoViewModel.getAllData.observe(
                             viewLifecycleOwner,
                             {
                                 setupList(it)
-                            })
+                            }
+                        )
                     }
                 }
             }
@@ -186,7 +188,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_priority_high -> {
                 mToDoViewModel.sortByHighPriority.observe(
                     viewLifecycleOwner,
-                    { adapter.setData(it) })
+                    { adapter.setData(it) }
+                )
                 savePrioritiesToDatabase(HIGH_PRIORITY)
             }
 
@@ -194,7 +197,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_priority_low -> {
                 mToDoViewModel.sortByLowPriority.observe(
                     viewLifecycleOwner,
-                    { adapter.setData(it) })
+                    { adapter.setData(it) }
+                )
                 savePrioritiesToDatabase(LOW_PRIORITY)
             }
 
@@ -202,7 +206,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.menu_reset -> {
                 mToDoViewModel.getAllData.observe(
                     viewLifecycleOwner,
-                    { adapter.setData(it) })
+                    { adapter.setData(it) }
+                )
                 savePrioritiesToDatabase(RESET)
             }
         }
